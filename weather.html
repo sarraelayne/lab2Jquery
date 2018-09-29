@@ -20,89 +20,96 @@
             <input id ='submitButton' type="submit" value="Submit">
         </form>
         <div id="answers">Empty</div>
-    <script>
-    /* global $ */
-        $(document).ready(function() { //all jQuery goes in here
-            $("#weatherButton").click(function(e){
-                var value = $("#cityField").val();
-                var everything;
-                everything = "<ul>";
-                console.log(value);
-                $("#displayCity").text(value);
-                e.preventDefault();
-                var myurl = "api.openweathermap.org/data/2.5/weather?q={city name}";
-                myurl += value;
-                console.log(myurl);
-                $.ajax({
-                    url: myurl,
-                    datatype: "json",
-                    success: function(parsed_json) {
-                        console.log(parsed_json);
-                        var location = parsed_json['name'];
-                        var weather = parsed_json['weather'][0]['main'];
-                        var temperature = ['main']['temp'];
-                        var pressure = ['main']['pressure'];
-                        everything = " IMAGE ____";
-                        everything += "<ul>";
-                        everything += "<li>Location: " + location;
-                        everything += "<li>Weather: " + weather + " (" + temperature + ")";
-                        everything += "<li>Pressure: " + pressure;
-                        everything += "</ul>";
-                        $("#weather").html(everything);
-                    }
-                });
-            });
-            $("#submitButton").click(function(e) {
-                var value = $("#cityField").val();
-                var everything;
-                everything = "<ul>";
-                console.log(value);
-                $('#displayCity').text(value);
-                e.preventDefault();
-                var myurl = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=";
-                myurl += value;
-                myurl += "&site=stackoverflow";
-                console.log(myurl);
-                $.ajax({
-                    url: myurl,
-                    datatype: "json",
-                    success: function(parsed_json) {
-                        console.log(parsed_json);
-                        var everything = "<ul>";
-                        var myArray = parsed_json["items"];
-                        $.each(myArray, function(i, item) {
-                            console.log(myArray[i]);
-                            everything += "<li> <a href=&quot;" + myArray[i].link+"&quot;>";
-                            everything += myArray[i].title;
-                            everything += "</a></li>";
-                        })
-                        everything += "</ul>";
-                        console.log(everything);
-                        $("#answers").html(everything);
-                    }
-                });
-            });
-            $("#cityField").keyup(function() {
-                var url = "http://bioresearch.byu.edu/cs260/jquery/getcity.cgi?q="+$("#cityField").val();
-                $.getJSON(url,function(data) {
+        <script>
+            /* global $ */
+            $(document).ready(function() { //all jQuery goes in here
+                
+                // Weather button on click
+                $("#weatherButton").click(function(e){
+                    var value = $("#cityField").val();
                     var everything;
                     everything = "<ul>";
-                    $.each(data, function(i,item) {
-                        everything += "<li> "+data[i].city;
+                    console.log(value);
+                    $("#displayCity").text(value);
+                    e.preventDefault();
+                    var myurl = "api.openweathermap.org/data/2.5/weather?q={city name}";
+                    myurl += value;
+                    console.log(myurl);
+                    $.ajax({
+                        url: myurl,
+                        datatype: "json",
+                        success: function(parsed_json) {
+                            console.log(parsed_json);
+                            var location = parsed_json['name'];
+                            var weather = parsed_json['weather'][0]['main'];
+                            var temperature = ['main']['temp'];
+                            var pressure = ['main']['pressure'];
+                            everything = " IMAGE ____";
+                            everything += "<ul>";
+                            everything += "<li>Location: " + location;
+                            everything += "<li>Weather: " + weather + " (" + temperature + ")";
+                            everything += "<li>Pressure: " + pressure;
+                            everything += "</ul>";
+                            $("#weather").html(everything);
+                        }
                     });
-                everything += "</ul>";
-                $("#txtHint").html(everything);
-            })
-            .done(function() { console.log('getJSON request succeeded!'); })
-            .fail(function(jqXHR, textStatus, errorThrown) { 
-                console.log('getJSON request failed! ' + textStatus); 
-                console.log("incoming "+jqXHR.responseText);
-            })
-            .always(function() { console.log('getJSON request ended!');
-            });
-        });
-        });
-    </script>
-  </body>
-    
+                }); //End Weatherbutton.click
+                
+                // Search term submit button
+                $("#submitButton").click(function(e) {
+                    var value = $("#cityField").val();
+                    var everything;
+                    everything = "<ul>";
+                    console.log(value);
+                    $('#displayCity').text(value);
+                    e.preventDefault();
+                    var myurl = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=";
+                    myurl += value;
+                    myurl += "&site=stackoverflow";
+                    console.log(myurl);
+                    $.ajax({
+                        url: myurl,
+                        datatype: "json",
+                        success: function(parsed_json) {
+                            console.log(parsed_json);
+                            var everything = "<ul>";
+                            var myArray = parsed_json["items"];
+                            $.each(myArray, function(i, item) {
+                                console.log(myArray[i]);
+                                everything += "<li> <a href=&quot;" + myArray[i].link+"&quot;>";
+                                everything += myArray[i].title;
+                                everything += "</a></li>";
+                            })
+                            everything += "</ul>";
+                            console.log(everything);
+                            $("#answers").html(everything);
+                        }
+                    });
+                }); // End searchterm submit click
+
+                // City Field
+                // Automatically populates on keystrokes
+                $("#cityField").keyup(function() {
+                    var url = "http://bioresearch.byu.edu/cs260/jquery/getcity.cgi?q="+$("#cityField").val();
+                    $.getJSON(url,function(data) {
+                        var everything;
+                        everything = "<ul>";
+                        $.each(data, function(i,item) {
+                            everything += "<li> "+data[i].city;
+                        });
+                        everything += "</ul>";
+                        $("#txtHint").html(everything);
+                    })
+                        .done(function() { console.log('getJSON request succeeded!'); })
+                        .fail(function(jqXHR, textStatus, errorThrown) { 
+                        console.log('getJSON request failed! ' + textStatus); 
+                        console.log("incoming "+jqXHR.responseText);
+                    }) // End of $.fail
+                        .always(function() { console.log('getJSON request ended!');
+                                           }); // End of $.always
+                }); // End of cityField keyup function
+            }); // End of $.docReady
+        </script>
+    </body>
+
 </html>
