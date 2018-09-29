@@ -42,14 +42,17 @@
                         success: function(parsed_json) {
                             console.log(parsed_json);
                             var location = parsed_json['name'];
+                            var icon = parsed_json['weather'][0]['icon'];
                             var weather = parsed_json['weather'][0]['main'];
-                            var temperature = ['main']['temp'];
-                            var pressure = ['main']['pressure'];
-                            everything = " IMAGE ____";
+                            var temp_max = parsed_json['main']['temp_max'];
+                            var wind_speed = parsed_json['wind']['speed'];
+                            temp_max = (temp_max * 9/5) - 459.67;
+                            temp = temp_max.toFixed(2);
+                            everything = "<img src=\"http://openweathermap.org/img/w/" + icon + ".png\"/>"
                             everything += "<ul>";
                             everything += "<li>Location: " + location;
-                            everything += "<li>Weather: " + weather + " (" + temperature + ")";
-                            everything += "<li>Pressure: " + pressure;
+                            everything += "<li>Weather: " + weather + " (High: " + temp + " F)";
+                            everything += "<li>Wind Speed: " + wind_speed + " mph";
                             everything += "</ul>";
                             $("#weather").html(everything);
                         }
@@ -109,6 +112,17 @@
                         .always(function() { console.log('getJSON request ended!');
                                            }); // End of $.always
                 }); // End of cityField keyup function
+                 $('icon').live('mouseenter',function(){  
+              $(this).addClass('shown');
+              $('.shown').animate({width: '+=50',height: '+=50'})
+          });
+
+ $('icon').live('mouseleave',function()
+          {
+              $(this).removeClass('shown');
+              $(this).addClass('reset');
+               $('.reset').animate({width: '-=50',height: '-=50'})
+          });
             }); // End of $.docReady
         </script>
     </body>
