@@ -21,9 +21,12 @@
         </form>
         <div id="answers">Empty</div>
     <script>
+    /* global $ */
         $(document).ready(function() { //all jQuery goes in here
             $("#weatherButton").click(function(e){
                 var value = $("#cityField").val();
+                var everything;
+                everything = "<ul>";
                 console.log(value);
                 $("#displayCity").text(value);
                 e.preventDefault();
@@ -51,6 +54,8 @@
             });
             $("#submitButton").click(function(e) {
                 var value = $("#cityField").val();
+                var everything;
+                everything = "<ul>";
                 console.log(value);
                 $('#displayCity').text(value);
                 e.preventDefault();
