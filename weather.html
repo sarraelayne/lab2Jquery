@@ -32,7 +32,7 @@
                     console.log(value);
                     $("#displayCity").text(value);
                     e.preventDefault();
-                    var myurl = "api.openweathermap.org/data/2.5/weather?q=";
+                    var myurl = "https://api.openweathermap.org/data/2.5/weather?q=";
                     myurl += value;
                     myurl += "&APPID=dc0cd594376255d132e802ee0df9a790";
                     console.log(myurl);
@@ -58,11 +58,11 @@
                 
                 // Search term submit button
                 $("#submitButton").click(function(e) {
-                    var value = $("#cityField").val();
+                    var value = $("#searchField").val();
                     var everything;
                     everything = "<ul>";
                     console.log(value);
-                    $('#displayCity').text(value);
+                    $('#searchField').text(value);
                     e.preventDefault();
                     var myurl = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=";
                     myurl += value;
