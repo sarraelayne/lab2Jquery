@@ -32,8 +32,9 @@
                     console.log(value);
                     $("#displayCity").text(value);
                     e.preventDefault();
-                    var myurl = "api.openweathermap.org/data/2.5/weather?q={city name}";
+                    var myurl = "api.openweathermap.org/data/2.5/weather?q=";
                     myurl += value;
+                    myurl += "&APPID=dc0cd594376255d132e802ee0df9a790";
                     console.log(myurl);
                     $.ajax({
                         url: myurl,
