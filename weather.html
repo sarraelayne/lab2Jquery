@@ -3,9 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="weather.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <html>
     <header>Lab 2: JQuery</header>
     <body>
+        <script>document.body.className += ' fade-out';</script>
         <form>
             Enter A Utah City: <input type="text" id="cityField" value=""><br>
             Suggestion: <span id="txtHint">Empty</span>
@@ -54,7 +56,7 @@
                             everything += "<li>Weather: " + weather + " (High: " + temp + " F)";
                             everything += "<li>Wind Speed: " + wind_speed + " mph";
                             everything += "</ul>";
-                            $("#weather").html(everything);
+                            $("#weather").html(everything).fadeIn();
                         }
                     });
                 }); //End Weatherbutton.click
@@ -110,8 +112,11 @@
                         console.log("incoming "+jqXHR.responseText);
                     }) // End of $.fail
                         .always(function() { console.log('getJSON request ended!');
-                                           }); // End of $.always
+                    }); // End of $.always
                 }); // End of cityField keyup function
+                $(function() {
+    $('body').removeClass('fade-out');
+});
             }); // End of $.docReady
         </script>
     </body>
